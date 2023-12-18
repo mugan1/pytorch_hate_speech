@@ -31,7 +31,7 @@ Normal(혐오표현 없음)/Offensive(공격적 표현)/Hate(혐오표현) 총 3
 2.  Mecab보다 Wordpiece Tokenizer를 사용한 모델의 성능이 5% 이상 높을 것이다
 3.  Pre-trained Embedding을 사용한 결과가 그렇지 않은 결과보다 성능이 10% 이상 높을 것이다
 4.  BERT 모델은 CNN 모델보다 성능이 10% 이상 높을 것이다
-5.  KoBERT 모델은 F1 Score 0.8 이상을 달성할 것이다\
+5.  KoBERT 모델은 F1 Score 0.8 이상을 달성할 것이다
 
 ### EDA
 
@@ -58,9 +58,9 @@ Normal(혐오표현 없음)/Offensive(공격적 표현)/Hate(혐오표현) 총 3
 
 1. 기준이 되는 Embedding은 Pytorch에서 제공하는 Embedding Layer이며, Word2Vec, Fasttext, Glove의 한국어 Pre-trained Embedding을 사용하여 성능을 비교할 것임
 2. Pre-trained Embedding
-- Word2Vec : 분산 표현(Distributed Representation)의 일종으로 단어의 의미를 여러 차원으로 분산하여 단어간 유사도를 계산할 수 있으며, CBOW와 Skip-gram 방법론으로 나뉜다.
-- Fasttext : 내부 단어(subword)를 고려하여 각 단어를 글자 단위 n-gram의 구성으로 취급하기 때문에 OOV 문제도 해결할 수 있으며, 이러한 장점 때문에 한국어 Embedding에 잘 활용됨
-- Glove :  LSA의 메커니즘인 카운트 기반의 방법과 Word2Vec의 메커니즘인 예측 기반의 방법론 두 가지를 모두 사용하는 방법
+  - Word2Vec : 분산 표현(Distributed Representation)의 일종으로 단어의 의미를 여러 차원으로 분산하여 단어간 유사도를 계산할 수 있으며, CBOW와 Skip-gram 방법론으로 나뉜다.
+  - Fasttext : 내부 단어(subword)를 고려하여 각 단어를 글자 단위 n-gram의 구성으로 취급하기 때문에 OOV 문제도 해결할 수 있으며, 이러한 장점 때문에 한국어 Embedding에 잘 활용됨
+  - Glove :  LSA의 메커니즘인 카운트 기반의 방법과 Word2Vec의 메커니즘인 예측 기반의 방법론 두 가지를 모두 사용하는 방법
   
 ### CNN Model
 
@@ -104,25 +104,21 @@ Normal(혐오표현 없음)/Offensive(공격적 표현)/Hate(혐오표현) 총 3
   <img src="https://github.com/mugan1/pytorch_hate_speech/assets/71809159/9f429239-70bd-48ee-93b1-c3da7b05fcb9" alt="text" width="number" />
 </p>
 
-### Layout
 
-1. 사용자 입력화면 : 사용자 입력데이터와 모델 예측 결과는 Input Table DB에 저장됨
-   
+### Pre-training
+
+1.  MLM(Masked Language Model) : [MASK]된 단어를 예측하는 방식이며, 전체 단어의 15%를 선택한 후 그중 80%는 [MASK], 10%는 현재 단어 유지, 10%는 임의의 단어로 대체
+2. NSP(Next Sentence Prediction) :  첫 번째([CLS]) Token으로 문장 A와 문장 B의 관계를 예측
+3. 소스코드에서는 각각 projection_lm, projection_cls로 표현
+4. RAM 문제로 100000개의 데이터만으로 소량 사전학습을 진행
+5. 10 epochs Traing 결과 loss 약 6.7
+
+<figure class="half">  
+  <a href="link"><img src="https://github.com/mugan1/pytorch_hate_speech/assets/71809159/b549f2e0-7c34-470b-8530-20a10d546e3a"></a>  
+  <a href="link"><img src="https://github.com/mugan1/pytorch_hate_speech/assets/71809159/ef83fc41-7258-43b2-becf-364de4a5515a"></a>  
+</figure>
 <p align="center">
-  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/17040b86-3608-411e-bf5c-b4cac2986ccb" alt="text" width="number" /><br>
-</p>   
+  <img src="https://github.com/mugan1/pytorch_hate_speech/assets/71809159/7b27d75c-0d8f-4279-b1f3-f117fd4ef5bf" alt="text" width="number" />
+</p>
 
-2. 대시보드 : 모델을 통해 예측한 가격과 관련 분석 정보를 확인할 수 있음
-
-<p align="center">
-  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/c9b24b46-8198-4e48-b6be-b80d67592608" alt="text" width="number" /><br>
-</p>  
-<p align="center">
-  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/fb88abd7-82af-4759-8a45-a41158870b4f" alt="text" width="number" /><br>
-</p>   
-
-### Conclusion
-
-- 직접 웹스크래핑으로 수집한 데이터를 분석하고 모델링하여 웹 애플리케이션으로 배포하는 프로젝트를 수행함으로써, ML 엔지니어링에 대한 이해를 한층 더 키울 수 있었음
-- 데이터량의 부족과 모델 하이퍼파라미터 최적화 문제, 변수 선택의 문제로 좋은 성능의 모델을 만들지 못했는데, 차후 수정을 통해 R2 Score 80% 이상의 모델을 구현하여 교체할 예정임
 
