@@ -121,4 +121,50 @@ Normal(혐오표현 없음)/Offensive(공격적 표현)/Hate(혐오표현) 총 3
   <img src="https://github.com/mugan1/pytorch_hate_speech/assets/71809159/7b27d75c-0d8f-4279-b1f3-f117fd4ef5bf" alt="text" width="number" />
 </p>
 
+### Transfer-learning
+<p align="center">
+  <img src="https://github.com/mugan1/pytorch_hate_speech/assets/71809159/051d779c-8862-41c3-8b29-258f2900e793" alt="text" width="number" />
+</p>
 
+1.  projection_cls을 사용하여 예측값을 구함
+2.  DNN으로 Classification Task 시행
+3.  score_00은 사전학습 모델을 적용시키지 않은 결과임에도 사전학습 모델을 적용시킨 score_00보다 오히려 높은 성능을 기록
+
+<p align="center">
+  <img src="https://github.com/mugan1/pytorch_hate_speech/assets/71809159/47843faa-579f-42b8-bbd6-762c112dc79d" alt="text" width="number" />
+</p>
+
+### KoBERT
+
+1.  SKT Brain에서 발표한 한국어 위키에서 5백만개의 문장과 54백만개의 단어를 추가 학습시킨 BERT 모델
+2.  한글 위키에서 학습시킨 Tokenizer를 사용
+
+### BERT Text Classification 결과
+
+<p align="center">
+  <img src="https://github.com/mugan1/pytorch_hate_speech/assets/71809159/3be3b618-446a-43fa-a781-a306dcc39b38" alt="text" width="number" />
+</p>
+
+1.  100000만개의 Corpus data를 Pre-training 시킨 결과는 그렇지 않은 BERT 모델보다 오히려 성능이 낮게 나옴
+2.  KoBERT의 성능은 BERT보다 높으나 CNN 모델과의 성능차이가 크지 않음
+3.  KoBERT의 Training Accuracy는 약 93%로 타 모델에 비해 높은 수치를 기록하여 과적합된 양상을 보임 
+
+### Conclusion
+
+1. CNN을 사용한 Text classification 최대 성능은 기준 모델의 성능보다 소폭 상승한 수준임
+2. 다양한 Tokenization과 Embedding 시도에도 그 수준은 비교가 무의미하다고 할 수 있음
+3. BERT 성능은 기대 이하로 낮게 나왔는데, RAM 사양의 문제로 대량 Corpus를 사전학습하지 못한 결과로 보임
+4. KoBERT 성능은 과적합 양상을 띠는데, 혐오표현 Dataset이 충분한 양이 아니었기 때문으로 보임
+5. CNN, BERT 모델 모두 혐오 표현 Dataset 분류에 있어 기준 모델의 성능과 큰 차이를 보이지 않았음
+
+### 기대효과
+
+1. 좋은 성능을 보인 프로젝트가 아니어서 매우 아쉬웠지만, 혐오표현 데이터의 양이 많이 부족했던 탓으로 생각됨. 따라서 충분한 양의 데이터가 확보된다면 두 모델의 성능이 기준 모델을 능가하여 프로젝트의 목표를 도달할 수 있을 것으로 예상
+2. KoBERT의 경우 다량의 Corpus로 사전학습된 모델인 만큼 충분한 데이터셋의 확보는 80% 이상의 F1 Score를 달성할 수 있을 것으로 판단
+3. Pytorch는 Tensorflow Framework에 비해 직관적인 이해가 가능한 Framework로써, 머신러닝 프로젝트에서 활용가치가 높다고 생각함
+
+### References
+
+1. BERT 논문 : [Link](https://arxiv.org/abs/1810.04805)
+2. CNN 모델 구현 : [Link](https://colab.research.google.com/drive/1b7aZamr065WPuLpq9C4RU6irB59gbX_K#scrollTo=lTJnvDI9xuUv)
+3. BERT 구현 :  [Link](https://paul-hyun.github.io/bert-01/)
